@@ -3,13 +3,14 @@
 library (raster)
 library (rgdal)
 
-setwd("C:/Users/Marcus/OneDrive/Dokumente/Uni/ScriptingForRemoteSensingSS2019/PreProcessing")
+setwd("~/Uni/ScriptingForRemoteSensingSS2019")
+setwd("./PreProcessing")
 getwd()
 
 
 # 2011: Landsat 5 TM ---------------------------------------------------------------
 
-setwd("LS5_20110909")
+setwd("./LS5_20110909")
 blue2011 <- raster ("LT50450322011252PAC01_B1.TIF")
 green2011 <- raster ("LT50450322011252PAC01_B2.TIF")
 red2011 <- raster ("LT50450322011252PAC01_B3.TIF")
@@ -88,8 +89,8 @@ image_area
 
 #matrix (c (-Inf, -1, NA), 1, 3)
 
-ls82014.subs <- reclassify (ls82014.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
-ls52011.subs <- reclassify (ls52011.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
+ls82014.subs <- reclassify (ls82014.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
+ls52011.subs <- reclassify (ls52011.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
 
 #?reclassify
 

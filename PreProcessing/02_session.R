@@ -1,8 +1,16 @@
+#install.packages("raster")
+#install.packages("rgdal")
 library (raster)
 library (rgdal)
 
-setwd("C:/Users/Marcus/OneDrive/Dokumente/Uni/ScriptingForRemoteSensingSS2019/PreProcessing")
+setwd("~/Uni/ScriptingForRemoteSensingSS2019")
+setwd("./PreProcessing")
 getwd()
+
+
+# 2014: Landsat 8 OLI & TIRS ----------------------------------------------------
+
+setwd("./LS8_20140901")
 
 #Metadata-File: LC80450322014244LGN00_MTL.txt
 #SUN_ELEVATION = 53.37968040
@@ -13,13 +21,7 @@ getwd()
 #RADIANCE_ADD_BAND_10 = 0.10000
 #RADIANCE_ADD_BAND_11 = 0.10000
 
-# 2014: Landsat 8 OLI & TIRS ----------------------------------------------------
-
-setwd("./LS8_20140901")
-dir()
-
 bands <- dir(pattern="LC80450322014244LGN00")
-#bands
 bands <- bands[4:9]
 ls82014 <- stack (bands)
 #plotRGB (ls82014, 4, 3, 2, stretch="lin")
@@ -34,12 +36,16 @@ ls82014.subs <- reclassify (ls82014.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 ls8the1.subs <- reclassify (ls8the1.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 ls8the2.subs <- reclassify (ls8the2.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 
-#conversion to TOA-reflectance
+
+# Conversion to TOA-reflectance -------------------------------------------
+
 ls82014toa <- (ls82014.subs * 2.0000E05 - 0.1) / sin (53.37968040 / 180 * pi)
 plotRGB (ls82014toa, 4, 3, 2, stretch="lin")
 
+
 # 2011: Landsat 5 TM ---------------------------------------------------------------
 
+setwd("../LS5_20110909")
 #Metadata-File: LT50450322011252PAC01_MTL.csv
 #RADIANCE_MULT_BAND_1 = 0.766
 #RADIANCE_MULT_BAND_2 = 1.448
@@ -56,7 +62,6 @@ plotRGB (ls82014toa, 4, 3, 2, stretch="lin")
 #RADIANCE_ADD_BAND_6 = 1.18243
 #RADIANCE_ADD_BAND_7 = -0.21555
 
-setwd("../LS5_20110909")
 blue2011 <- raster ("LT50450322011252PAC01_B1.TIF")
 green2011 <- raster ("LT50450322011252PAC01_B2.TIF")
 red2011 <- raster ("LT50450322011252PAC01_B3.TIF")
@@ -73,7 +78,9 @@ ls52011.subs <- reclassify (ls52011.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 ls5the.subs <- reclassify (the2011.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 plotRGB(ls52011.subs, 4, 3, 2, stretch="lin")
 
-#conversion to radiances
+
+# Conversion to radiances -------------------------------------------------
+
 blue2011rad <- ls52011.subs[[1]] * 0.766 - 2.28583
 green2011rad <- ls52011.subs[[2]] * 1.448 - 4.28819
 red2011rad <- ls52011.subs[[3]] * 1.044 - 2.21398
@@ -81,12 +88,14 @@ nir2011rad <- ls52011.subs[[4]] * 0.876 - 2.38602
 swira2011rad <- ls52011.subs[[5]] * 0.120 - 0.49035
 swirb2011rad <- ls52011.subs[[6]] * 0.066 - 0.21555
 
+
+# Conversion to TOA-reflectance -------------------------------------------
+
 #DOY: 2011-09-09 --> 252
 #d=1.0072409
 #SUN_ELEVATION = 49.65690900
 sza <- (90 - 49.65690900) / 180 * pi
 
-#conversion to TOA-reflectance
 blue2011ref <- (blue2011rad * pi * 1.0072409^2) / (1957 * cos (sza))
 green2011ref <- (green2011rad * pi * 1.0072409^2) / (1826 * cos (sza))
 red2011ref <- (red2011rad * pi * 1.0072409^2) / (1554 * cos (sza))
@@ -97,12 +106,17 @@ swirb2011ref <- (swirb2011rad * pi * 1.0072409^2) / (80.76 * cos (sza))
 ls52011toa <- stack(blue2011ref, green2011ref, red2011ref, nir2011ref,  swira2011ref, swirb2011ref)
 plotRGB (ls52011toa, 4, 3, 2, stretch="lin")
 
-#thermal bands of both sensors
+
+# Both sensors ------------------------------------------------------------
+
+#thermal bands
 the2011rad <- ls5the.subs * 0.055 + 1.18243
 thea2014rad <- ls8the1.subs * 3.3420E-04 + 0.10000
 theb2014rad <- ls8the2.subs * 3.3420E-04 + 0.10000
 
+
 # Dark pixel substraction -------------------------------------------------
+
 mn2014 <- minValue(ls82014toa)
 ls82014dps <- ls82014toa - mn2014
 plotRGB (ls82014dps, 4, 3, 2, stretch="lin")
@@ -110,7 +124,13 @@ mn2011 <- minValue(ls52011toa)
 ls52011dps <- ls52011toa - mn2011
 plotRGB (ls52011dps, 4, 3, 2, stretch="lin")
 
+
 # Correction of topographic effects ---------------------------------------
+
+setwd("~/Uni/ScriptingForRemoteSensingSS2019")
+setwd("./PreProcessing")
+setwd("./LS8_20140901")
+getwd()
 dem <- raster("SRTM_ffB01_p045r032.tif")
 dem <- resample(dem, ls82014toa) ## resample and clip the DEM to the image
 
