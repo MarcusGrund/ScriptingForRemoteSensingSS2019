@@ -11,18 +11,18 @@ getwd()
 # 2011: Landsat 5 TM ---------------------------------------------------------------
 
 setwd("./LS5_20110909")
-blue2011 <- raster ("LT50450322011252PAC01_B1.TIF")
-green2011 <- raster ("LT50450322011252PAC01_B2.TIF")
-red2011 <- raster ("LT50450322011252PAC01_B3.TIF")
-nir2011 <- raster ("LT50450322011252PAC01_B4.TIF")
-swira2011 <- raster ("LT50450322011252PAC01_B5.TIF")
-swirb2011 <- raster ("LT50450322011252PAC01_B7.TIF")
-the2011 <- raster ("LT50450322011252PAC01_B6.TIF")
+blue2011 <- raster("LT50450322011252PAC01_B1.TIF")
+green2011 <- raster("LT50450322011252PAC01_B2.TIF")
+red2011 <- raster("LT50450322011252PAC01_B3.TIF")
+nir2011 <- raster("LT50450322011252PAC01_B4.TIF")
+swira2011 <- raster("LT50450322011252PAC01_B5.TIF")
+swirb2011 <- raster("LT50450322011252PAC01_B7.TIF")
+the2011 <- raster("LT50450322011252PAC01_B6.TIF")
 
 ls52011 <- stack(blue2011,green2011,red2011,nir2011,swira2011,swirb2011)
 
-plot (nir2011) ## plots the NIR band with the default inverted terrain.colors() gradient
-plot (nir2011, col=gray.colors(255, 0, 1, 1)) ## plots the NIR band as black-and-white image
+plot(nir2011) ## plots the NIR band with the default inverted terrain.colors() gradient
+plot(nir2011, col=gray.colors(255, 0, 1, 1)) ## plots the NIR band as black-and-white image
 plotRGB(ls52011, 4, 3, 2, stretch="lin") ## plots a RGB composite of bands 4 (R), 3 (G) and 2 (B) with linear contrast stretch
 dev.off()
 
@@ -32,7 +32,7 @@ dev.off()
 
 pdf("../Plots/nir2011_my.gradient.pdf")
 my.gradient <- colorRampPalette(c("blue","yellow","red"))
-plot (nir2011, col=my.gradient(100))
+plot(nir2011, col=my.gradient(100))
 dev.off()
 #?colorRampPalette
 #colors()
@@ -46,7 +46,7 @@ bands <- dir(pattern="LC80450322014244LGN00")
 #bands
 bands <- bands[4:9]
 ls82014 <- stack (bands)
-plotRGB (ls82014, 4, 3, 2, stretch="lin")
+plotRGB(ls82014, 4, 3, 2, stretch="lin")
 dev.off()
 
 the1.2014 <- raster("LC80450322014244LGN00_B10.TIF")
@@ -89,8 +89,8 @@ image_area
 
 #matrix (c (-Inf, -1, NA), 1, 3)
 
-ls82014.subs <- reclassify (ls82014.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
-ls52011.subs <- reclassify (ls52011.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
+ls82014.subs <- reclassify(ls82014.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
+ls52011.subs <- reclassify(ls52011.subs, rcl=matrix(c(-Inf, -1, NA), 1, 3))
 
 #?reclassify
 
@@ -100,9 +100,9 @@ pdf("Plots/RGBPlots.pdf")
 #plot.new()
 #title("Trinit and Shasta Lake, California",cex.main=1.5)
 #title("Landsat 5 TM: September 9th, 2011",cex.main=1.5)
-plotRGB (ls52011.subs, 4, 3, 2, stretch="lin")
+plotRGB(ls52011.subs, 4, 3, 2, stretch="lin")
 #title("Landsat 8 OLI & TIRS: September 1th, 2014",cex.main=1.5)
-plotRGB (ls82014.subs, 4, 3, 2, stretch="lin")
+plotRGB(ls82014.subs, 4, 3, 2, stretch="lin")
 dev.off()
 
 #save.image("PreProcessing.RData")

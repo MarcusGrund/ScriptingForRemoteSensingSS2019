@@ -5,3 +5,7 @@
 LS5_20110909/
 LS8_20140901/
 Plots/
+landsat/
+srtm/
+*.pdf
+*.rds

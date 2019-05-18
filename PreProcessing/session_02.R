@@ -40,7 +40,7 @@ ls8the2.subs <- reclassify (ls8the2.subs, rcl=matrix (c (-Inf, -1, NA), 1, 3))
 # Conversion to TOA-reflectance -------------------------------------------
 
 ls82014toa <- (ls82014.subs * 2.0000E05 - 0.1) / sin (53.37968040 / 180 * pi)
-plotRGB (ls82014toa, 4, 3, 2, stretch="lin")
+plotRGB(ls82014toa, 4, 3, 2, stretch="lin")
 
 
 # 2011: Landsat 5 TM ---------------------------------------------------------------
@@ -104,7 +104,7 @@ swira2011ref <- (swira2011rad * pi * 1.0072409^2) / (215 * cos (sza))
 swirb2011ref <- (swirb2011rad * pi * 1.0072409^2) / (80.76 * cos (sza))
 
 ls52011toa <- stack(blue2011ref, green2011ref, red2011ref, nir2011ref,  swira2011ref, swirb2011ref)
-plotRGB (ls52011toa, 4, 3, 2, stretch="lin")
+plotRGB(ls52011toa, 4, 3, 2, stretch="lin")
 
 
 # Both sensors ------------------------------------------------------------
@@ -119,10 +119,10 @@ theb2014rad <- ls8the2.subs * 3.3420E-04 + 0.10000
 
 mn2014 <- minValue(ls82014toa)
 ls82014dps <- ls82014toa - mn2014
-plotRGB (ls82014dps, 4, 3, 2, stretch="lin")
+plotRGB(ls82014dps, 4, 3, 2, stretch="lin")
 mn2011 <- minValue(ls52011toa)
 ls52011dps <- ls52011toa - mn2011
-plotRGB (ls52011dps, 4, 3, 2, stretch="lin")
+plotRGB(ls52011dps, 4, 3, 2, stretch="lin")
 
 
 # Correction of topographic effects ---------------------------------------
@@ -140,12 +140,12 @@ hs2014 <- hillShade(slp, asp, angle=53.37968040, direction=145.67767882)
 hs2014 <- reclassify(hs2014, matrix (c (-Inf, 0.1, 0.1), 1, 3))
 
 ls82014dps.topo <- ls82014dps * cos((90 - 53.37968040) / 180 * pi) / hs2014
-plotRGB (ls82014dps, 4, 3, 2, stretch="lin")
-plotRGB (ls82014dps.topo, 4, 3, 2, stretch="lin")
+plotRGB(ls82014dps, 4, 3, 2, stretch="lin")
+plotRGB(ls82014dps.topo, 4, 3, 2, stretch="lin")
 
 hs2011 <- hillShade(slp, asp, angle=49.65690900, direction=144.56665673)
 hs2011 <- reclassify(hs2011, matrix (c (-Inf, 0.1, 0.1), 1, 3))
 ls52011dps.topo <- ls52011dps * cos ((90 - 49.65690900) / 180 * pi) / hs2011
-plotRGB (ls52011dps, 4, 3, 2, stretch="lin")
-plotRGB (ls52011dps.topo, 4, 3, 2, stretch="lin")
+plotRGB(ls52011dps, 4, 3, 2, stretch="lin")
+plotRGB(ls52011dps.topo, 4, 3, 2, stretch="lin")
 

@@ -62,7 +62,7 @@ plot(loss)
 lossval <- getValues(loss) ## writes the pixel values to a table
 table(lossval) ## determines the number of pixels per value
 area <- table(lossval)[2] * 30 * 30 / 10000 ## change area in hectares
-
+area ## 8071.29 ha
 
 # Handling vector data ----------------------------------------------------
 
@@ -89,19 +89,19 @@ plot(trinity.loss)
 lossval_shasta <- getValues(shasta.loss) ## writes the pixel values to a table
 table(lossval_shasta) ## determines the number of pixels per value
 area <- table(lossval_shasta)[2] * 30 * 30 / 10000 ## change area in hectares
-#4790.97
+area ## 4790.97
 
 #loss area Trinity
 lossval_trinity <- getValues(trinity.loss) ## writes the pixel values to a table
 table(lossval_trinity) ## determines the number of pixels per value
 area <- table(lossval_trinity)[2] * 30 * 30 / 10000 ## change area in hectares
-#3280.68
+area ## 3280.68
 
 
 # Visualization -----------------------------------------------------------
 
 loss <- reclassify(loss, matrix (c(0, NA), 1, 2)) ## make non-change pixels transparent
-pdf("Plots/map.pdf", 5, 4, useDingbats=F) ## open a *.pdf
+pdf("./Plots/map.pdf", 5, 4, useDingbats=F) ## open a *.pdf
 par(pin=c(4.01, 3), cex=0.7) ## set the size of the panel
 plot(loss, legend=F) ## plot the loss layer with coordinate axes
 plotRGB(ls82014dps.topo, 4, 3, 2, stretch="lin", add=T) ## plot the background 

@@ -1,0 +1,17 @@
+raster: Create a RasterLayer object (function provided by raster package)
+stack: Create a RasterStack object
+colorRampPalette: Color interpolation
+res: determines the spatial resolution of a pixel in X- and Y-direction
+projection: Get a coordinate reference system (projection)
+crs: Set a coordinate reference system (projection)
+dim: determines the dimensionality (rows of pixels, columns of pixels, bands)
+nlayers: determines the number of bands of a raster stack
+extent: determines the extent of the bounding box of a raster data, set and returns the range of X- and Y-coordinates
+ncell: determines the number of pixels (rows x columns) of a raster data set
+resample(dem, image): resample and clip the DEM to the image
+terrain: Compute slope, aspect and other terrain characteristics from a raster with elevation data.
+hillShade: Compute hill shade from slope and aspect layers (both in radians). Slope and aspect can be computed with function terrain.
+density
+table
+spTransform
+mask
