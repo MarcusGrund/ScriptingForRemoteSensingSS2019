@@ -91,7 +91,7 @@ cloudsJul <- reclassify(cloudsJul, matrix (c(0, 1, 1, NA), 2, 2, byrow=T))
 ls8Juldps.topo <- ls8Juldps.topo * cloudsJul
 
 ## plots a RGB composite of bands 4 (R), 3 (G) and 2 (B) with linear contrast stretch
-plotRGB (ls8Juldps.topo, 4, 3, 2, stretch="lin")
+plotRGB (ls8Juldps.topo, 4, 3, 2, stretch="lin", main="Juli")
 
 
 ## October image ---------------------------------------------------------------
@@ -174,7 +174,7 @@ plot(cloudsOct)
 ## -> no clouds visible, no correction needed
 
 ## plots a RGB composite of bands 4 (R), 3 (G) and 2 (B) with linear contrast stretch
-plotRGB (ls8Octdps.topo, 4, 3, 2, stretch="lin")
+plotRGB (ls8Octdps.topo, 4, 3, 2, stretch="lin", main="October")
 
 ## Detection of the fire extent
 ## First approach by using the NDVI index
@@ -186,18 +186,20 @@ ndviJul <- (ls8Juldps.topo[[4]] - ls8Juldps.topo[[3]]) /(ls8Juldps.topo[[4]] + l
 ndviOct <- (ls8Octdps.topo[[4]] - ls8Octdps.topo[[3]]) /(ls8Octdps.topo[[4]] + ls8Octdps.topo[[3]])
 plot(ndviJul)
 plot(ndviOct)
-change <- ndviJul - ndviOct 
-plot(change)
 
-plot(density(change)) ## the inflexion point is near 0.1
-loss <- change > 0.1
-plot(loss)
+pdf("./Plots/NDVI.pdf")
+change <- ndviJul - ndviOct 
+plot(change, main="Change using NDVI index")
+density(change, plot=TRUE, main="Density using NDVI index")
+loss <- change > 0.25
+plot(loss, main="Loss using NDVI index with Inflection point = 0.25")
+dev.off()
 
 ## Calculation of total area
 lossval <- getValues(loss) ## writes the pixel values to a table
 table(lossval) ## determines the number of pixels per value
-area <- table(lossval)[2] * 30 * 30 / 10000 ## change area in hectares
-area ## 158432.3 ha --> too large area!! --> wrong index
+area <- table(lossval)[2] * 30 * 30 / 1000000 ## change area in square kilometrers
+area ## 948.6531 km2 --> too small
 
 ## Second approach by using the NBR index
 ## Normalized Burn Ratio (NBR)
@@ -208,20 +210,20 @@ nbrJul <- (ls8Juldps.topo[[4]] - ls8Juldps.topo[[6]]) /(ls8Juldps.topo[[4]] + ls
 nbrOct <- (ls8Octdps.topo[[4]] - ls8Octdps.topo[[6]]) /(ls8Octdps.topo[[4]] + ls8Octdps.topo[[6]])
 plot(nbrJul)
 plot(nbrOct)
-change <- nbrJul - nbrOct 
-plot(change)
 
-d <- density(change)
-v <- d$x[which.max(d$y)] # --> -0.004277496 ???
-plot(density(change)) ## the inflexion point is near 0.3 ???!!!!
-loss <- change > 0.3
-plot(loss)
+pdf("./Plots/NBR.pdf")
+change <- nbrJul - nbrOct 
+plot(change, main="Change using NBR index")
+density(change, plot=TRUE, main="Density using NBR index")
+loss <- change > 0.25
+plot(loss, main="Loss using NBR index with Inflection point = 0.25")
+dev.off()
 
 ## Calculation of total area
 lossval <- getValues(loss) ## writes the pixel values to a table
 table(lossval) ## determines the number of pixels per value
-area <- table(lossval)[2] * 30 * 30 / 10000 ## change area in hectares
-area ## 117540.7  ha --> still too large area!!
+area <- table(lossval)[2] * 30 * 30 / 1000000 ## change area in square kilometrers
+area ## 1290.946 km2
 
 
 
