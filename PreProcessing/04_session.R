@@ -1,8 +1,8 @@
 ############################ Homework of Marcus Grund ############################
 ## This script is to preprocess Landsat 8 imagery and to detect a fire extent
-## using a change detection approach based on a spectral index. The index was
-## chosen for the following reasons: TODO
-################################################################################
+## using a change detection approach based on a spectral index. Used indices NDVI 
+## and NBR. NBR shows better results.
+##################################################################################
 
 ## load required R packages
 library (raster)
