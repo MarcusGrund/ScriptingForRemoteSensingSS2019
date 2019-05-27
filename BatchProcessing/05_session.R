@@ -2,7 +2,7 @@
 library (raster)
 library (rgdal)
 
-setwd("./PreProcessing/assignment_05")
+setwd("./BatchProcessing/assignment_05")
 
 ## Manipulating file names
 metafiles <- dir(pattern="txt")
@@ -52,6 +52,7 @@ for (i in 1:5) { ## for each file...
   angles[i,1] <- as.numeric(meta[x+2]) ## copy azimuth to the ith row, 1st col
   angles[i,2] <- as.numeric(meta[y+2]) ## copy elevation to ith row, 2nd col
 }
+angles
 
 ## Final preparations
 
@@ -77,7 +78,7 @@ for (i in 1:5) {
   hs <- hillShade(slp, asp, angle=angles[i,2], direction=angles[i,2]) ## derive the hillshade layer
   hs <- reclassify(hs, matrix (c (-Inf, 0.1, 0.1), 1, 3))
   im <- im * cos((90 - angles[i,2]) / 180 * pi) / hs ## apply the cosine correction
-  writeRaster(im, paste(image.names[i], "_topo.tiff", sep=""), format("GTiff")) ## write image to hard drive
+  writeRaster(im, paste(image.names[i], "_topo.tiff", sep=""), format("GTiff"), overwrite=TRUE) ## write image to hard drive
   setTxtProgressBar(pb, i) ## ...and update the progress bar.
 }
 
@@ -91,7 +92,7 @@ for (x in 2:5) {
   ndvi <- stack(ndvi, ndvix)
 }
 dim(ndvi)
-writeRaster(ndvi, "ndvistack.tif", format="GTiff")
+writeRaster(ndvi, "ndvistack.tif", format="GTiff", overwrite=TRUE)
 plotRGB(ndvi, 3, 2, 1, stretch="lin")
 
 for (j in 1:5) {
