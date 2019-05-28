@@ -100,3 +100,5 @@ for (j in 1:5) {
   Sys.sleep (3)
 }
 
+setwd("../..")
+

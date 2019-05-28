@@ -40,7 +40,7 @@ cropcol <- c(rep("#FF00FF", 3), "#DE8787", "#C8C800", rep("#00FF00", 3),"#008000
 cl <- rep(cropcol, sapply(calpix, nrow))
 
 ## Minimum distance classifier
-classcentroids <- t(sapply (calpix, colMeans)) ## calculate the mean value per column and list element
+classcentroids <- t(sapply(calpix, colMeans)) ## calculate the mean value per column and list element
 
 for (i in 1:5){
   for (j in 1:5){
@@ -50,6 +50,7 @@ for (i in 1:5){
     readline ("Press ENTER for next plot")
   }
 }
+
 
 ## Which NDVI combination allows the best separation of the different crop types?
 ## NDVI 1 (day 109) and NDVI 4 (day 205) or NDVI 3 (day 173) and NDVI5 (day 237).
@@ -103,4 +104,6 @@ producers
 
 ## Which class has the lowest producer's accuracy? Why?
 ## Tomatoes (46.3 %), these points were often classified as sunflowers and beans...
+
+setwd("../..")
 
